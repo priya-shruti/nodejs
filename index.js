@@ -1,4 +1,11 @@
-const app = require("./app");
-// var x = 20;
-// const arr = [2, 4, 7, 1, 3, 8, 2];
-console.log(app.z());
+const fs = require("fs");
+
+const input = process.argv;
+
+if (input[2] == "add") {
+  fs.writeFileSync(input[3], input[4]);
+} else if (input[2] == "remove") {
+  fs.unlinkSync(input[3]);
+} else {
+  console.log("invalid input");
+}
