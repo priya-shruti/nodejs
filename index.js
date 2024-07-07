@@ -1,13 +1,19 @@
-let a = 20;
-let b = 0;
+const express = require("express");
+const app = express();
 
-let waitingData = new Promise((resolve, reject) => {
-  setTimeout(() => {
-    resolve(30);
-  }, 2000);
+app.get("", (req, res) => {
+  res.send("<h1>Hello, this is home page</h1>");
 });
 
-waitingData.then((data) => {
-  b = data;
-  console.log(a + b);
+app.get("/about", (req, res) => {
+  res.send(`<input type="text" placeholder="User name" />
+    <button>Click Me </button>`);
 });
+
+app.get("/help", (req, res) => {
+  res.send({
+    name: "anil",
+    email: "aniltest@gmail.com",
+  });
+});
+app.listen(5000);
