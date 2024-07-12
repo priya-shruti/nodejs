@@ -1,13 +1,13 @@
-const { MongoClient } = require("mongodb");
-const url = "mongodb://localhost:27017";
-const database = "e-comm";
-const client = new MongoClient(url);
-
-async function getData() {
-  let result = await client.connect();
-  let db = result.db(database);
-  let collection = db.collection("products");
-  let response = await collection.find().toArray();
-  console.log(response);
-}
-getData();
+const mongoose = require("mongoose");
+const main = async () => {
+  await mongoose.connect("mongodb://localhost:27017/e-comm");
+  const ProductSchema = new mongoose.Schema({
+    name: String,
+    price: Number,
+  });
+  const ProductModel = mongoose.model("products", ProductSchema);
+  let data = new ProductModel({ name: "M 10", price: 1000 });
+  let result = await data.save();
+  console.log(result);
+};
+main();
