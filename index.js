@@ -1,31 +1,21 @@
-const mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost:27017/e-comm");
-const ProductSchema = new mongoose.Schema({
-  name: String,
-  price: Number,
-  brand: String,
-  category: String,
-});
-const saveInDB = async () => {
-  const Product = mongoose.model("products", ProductSchema);
-  let data = new Product({
-    name: "Note Pro",
-    price: 50,
-    brand: "abc",
-    category: "Mobile",
-  });
-  let result = await data.save();
-  console.log(result);
-};
+const express = require("express");
+const EventEmitter = require("events");
+const app = express();
+const event = new EventEmitter();
 
-const updateInDB = async () => {
-  const Product = mongoose.model("products", ProductSchema);
-  let data = await Product.updateOne(
-    { name: "M 10" },
-    {
-      $set: { price: 7000 },
-    }
-  );
-  console.log(data);
-};
-updateInDB();
+event.on("countAPI", () => {
+  console.log("event called");
+});
+app.get("/", (req, resp) => {
+  resp.send("api called");
+  event.emit("countAPI");
+});
+
+app.get("/search", (req, resp) => {
+  resp.send("search api called");
+});
+
+app.get("/update", (req, resp) => {
+  resp.send("update api called");
+});
+app.listen(5000);
